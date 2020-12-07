@@ -1,11 +1,16 @@
-import math
 import itertools
+import math
 
-input_string = """1721
-979
-366
-299
-675
-1456"""
 
-print(math.prod({sum(xs): xs for xs in itertools.combinations((map(int, input_string.split("\n"))), 2)}.get(2020)))
+def solution(input_string):
+    return math.prod(
+        {
+            sum(xs): xs
+            for xs in itertools.combinations((map(int, input_string.split("\n"))), 2)
+        }.get(2020)
+    )
+
+
+if __name__ == "__main__":
+    with open("input.txt") as f:
+        print(solution(f.read().strip()))

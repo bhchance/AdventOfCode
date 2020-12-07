@@ -12,8 +12,8 @@ class IntcodeProgram:
 
     def handle_opcode_2(self):
         self.state[self.state[self.current_position + 3]] = (
-                self.state[self.state[self.current_position + 1]]
-                * self.state[self.state[self.current_position + 2]]
+            self.state[self.state[self.current_position + 1]]
+            * self.state[self.state[self.current_position + 2]]
         )
         return None
 
@@ -52,7 +52,5 @@ if __name__ == "__main__":
                 numbers_for_run[2] = j
 
                 result = IntcodeProgram(numbers_for_run).run()
-
-
 
     print(result)

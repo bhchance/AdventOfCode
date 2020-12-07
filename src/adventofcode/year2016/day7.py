@@ -1,12 +1,7 @@
-
-
 class Node:
-
     def __init__(self, weight, children):
         self.weight = weight
         self.children = children
-
-
 
 
 def solution(input_string):
@@ -23,7 +18,9 @@ def solution(input_string):
     return answer
 
 
-assert solution("""pbga (66)
+assert (
+    solution(
+        """pbga (66)
 xhth (57)
 ebii (61)
 havc (66)
@@ -35,4 +32,7 @@ tknk (41) -> ugml, padx, fwft
 jptl (61)
 ugml (68) -> gyxo, ebii, jptl
 gyxo (61)
-cntj (57)""") == "tknk"
+cntj (57)"""
+    )
+    == "tknk"
+)

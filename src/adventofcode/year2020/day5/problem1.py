@@ -44,6 +44,6 @@ def solution(input_string):
     return (set(range(min(seat_ids), max(seat_ids))) - set(seat_ids)).pop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     with open("input.txt") as f:
         print(solution(f.read().strip()))

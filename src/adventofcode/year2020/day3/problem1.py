@@ -26,16 +26,9 @@ def solution(input_string):
         (1, 2),
     )
 
-    print(
-        math.prod(
-            map(lambda i: find_trees(course, *i), slopes)
-        )
-    )
+    return math.prod(map(lambda i: find_trees(course, *i), slopes))
 
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     with open("input.txt") as f:
-        solution(f.read().strip())
-
+        print(solution(f.read().strip()))

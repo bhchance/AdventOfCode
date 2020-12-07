@@ -1,4 +1,3 @@
-
 new_dir_mapping = {
     ("N", "R"): "E",
     ("N", "L"): "W",
