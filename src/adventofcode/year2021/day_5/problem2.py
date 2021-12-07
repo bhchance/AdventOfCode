@@ -1,31 +1,29 @@
 import itertools
 
 
-def process_horizontal(coord, matrix):
+def process_vertical(coord):
     coord = sorted(coord)
-    for i in range(coord[0][1], coord[1][1]+1):
-        matrix[i][coord[0][0]] += 1
+    points_to_update = []
+    for i in range(coord[0][1], coord[1][1] + 1):
+        points_to_update.append((coord[0][0], i))
+    return points_to_update
 
 
-def process_vertical(coord, matrix):
-    coord = sorted(coord)
-    for i in range(coord[0][0], coord[1][0]+1):
-        matrix[coord[0][1]][i] += 1
-
-
-def process_diagonal(coords, matrix):
-    ((x1, y1), (x2, y2)) = coords
+def process_diagonal(coord):
+    ((x1, y1), (x2, y2)) = coord
     m = (y1 - y2) / (x1 - x2)
     b = (x1 * y2 - x2 * y1) / (x1 - x2)
 
+    points_to_update = []
     if x1 < x2:
-        for x in range(x1, x2+1):
-            y = m*x + b
-            matrix[int(x)][int(y)] += 1
+        for x in range(x1, x2 + 1):
+            y = m * x + b
+            points_to_update.append((int(x), int(y)))
     if x1 > x2:
-        for x in range(x1, x2-1, -1):
-            y = m*x + b
-            matrix[int(x)][int(y)] += 1
+        for x in range(x1, x2 - 1, -1):
+            y = m * x + b
+            points_to_update.append((int(x), int(y)))
+    return points_to_update
 
 
 def solution(input_string):
@@ -35,22 +33,21 @@ def solution(input_string):
         start_x, start_y = map(int, start.split(","))
         stop_x, stop_y = map(int, stop.split(","))
         coords.append(
-                ((start_x, start_y), (stop_x, stop_y))
+            ((start_x, start_y), (stop_x, stop_y))
         )
 
-    xs = [coord[0][0] for coord in coords] + [coord[1][0] for coord in coords]
-    ys = [coord[0][1] for coord in coords] + [coord[1][1] for coord in coords]
-
-    matrix = [[0]*(max(xs)+1) for x in range(max(ys) + 1)]
+    matrix_width = max([coord[0][0] for coord in coords] + [coord[1][0] for coord in coords]) + 1
+    matrix_height = max([coord[0][1] for coord in coords] + [coord[1][1] for coord in coords]) + 1
+    matrix = [[0] * matrix_width for _ in range(matrix_height)]
 
     for coord in coords:
         if coord[0][0] == coord[1][0]:
-            process_horizontal(coord, matrix)
-        elif coord[0][1] == coord[1][1]:
-            process_vertical(coord, matrix)
+            points_to_update = process_vertical(coord)
         else:
-            process_diagonal(coord, matrix)
-    return sum([1 for x in itertools.chain.from_iterable(matrix) if x > 1])
+            points_to_update = process_diagonal(coord)
+        for (x, y) in points_to_update:
+            matrix[x][y] += 1
+    return sum(1 for x in itertools.chain.from_iterable(matrix) if x > 1)
 
 
 if __name__ == "__main__":
