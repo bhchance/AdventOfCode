@@ -1,4 +1,5 @@
 # Project exclude paths
 /.tox/
 /venv/
+.idea/
 **/input.txt
