@@ -1,14 +1,14 @@
 def solution(input_string):
     fish = list(map(int, input_string.split(',')))
     for iteration in range(80):
-        new_fish = []
+        new_fish = 0
         for i, f in enumerate(fish):
             if f == 0:
                 fish[i] = 6
-                new_fish.append(8)
+                new_fish += 1
                 continue
             fish[i] = f - 1
-        fish.extend(new_fish)
+        fish.extend(new_fish * [8])
     return (len(fish))
 
 
