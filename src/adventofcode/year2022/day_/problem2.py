@@ -2,12 +2,11 @@ import aocd
 
 
 def solution(input_string):
-    total_for_each_elf = [sum(map(int, x.split("\n"))) for x in input_string.split("\n\n")]
-    return sum(sorted(total_for_each_elf)[-3:])
+    pass
 
 
 if __name__ == "__main__":
-    year, day, part = 2022, 1, 2
+    year, day, part = 2022, _, 2
     submit = True
     answer = solution(aocd.get_data())
 
