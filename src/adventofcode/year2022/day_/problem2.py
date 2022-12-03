@@ -7,7 +7,7 @@ def solution(input_string):
 
 if __name__ == "__main__":
     year, day, part = 2022, _, 2
-    submit = True
+    submit = False
     answer = solution(aocd.get_data())
 
     if submit:
