@@ -21,7 +21,7 @@ def solution(input_string):
 if __name__ == "__main__":
     year, day, part = 2022, 2, 1
 submit = True
-answer = solution(aocd.get_data())
+answer = solution(aocd.get_data(year=year, day=day))
 
 if submit:
     aocd.submit(answer, year=year, day=day, part=part)
