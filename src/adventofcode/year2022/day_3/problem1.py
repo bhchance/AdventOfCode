@@ -2,16 +2,12 @@ import string
 
 import aocd
 
+from adventofcode.helpers import chunk
+
 
 def solution(input_string):
-    total = 0
-    for line in input_string.splitlines():
-        same = (set(line[:len(line) // 2]) & set(line[len(line) // 2:])).pop()
-        if same in string.ascii_lowercase:
-            total += ord(same) - 96
-        if same in string.ascii_uppercase:
-            total += ord(same) - 38
-    return total
+    sames = (set.intersection(*map(set, chunk(line, len(line)//2))).pop() for line in input_string.splitlines())
+    return sum(string.ascii_letters.index(same) + 1 for same in sames)
 
 
 if __name__ == "__main__":

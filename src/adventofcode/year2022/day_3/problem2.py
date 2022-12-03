@@ -5,19 +5,11 @@ import aocd
 
 from adventofcode.helpers import chunk
 
-reduce
-
 
 def solution(input_string):
     chunks = chunk(input_string.splitlines(), 3)
-    total = 0
-    for c in chunks:
-        same = reduce(lambda x, y: x & y, map(set, c)).pop()
-        if same in string.ascii_lowercase:
-            total += ord(same) - 96
-        if same in string.ascii_uppercase:
-            total += ord(same) - 38
-    return total
+    sames = (set.intersection(*map(set, c)).pop() for c in chunks)
+    return sum(string.ascii_letters.index(same) + 1 for same in sames)
 
 
 if __name__ == "__main__":
