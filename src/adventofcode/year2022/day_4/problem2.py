@@ -13,12 +13,10 @@ def solution(input_string):
         start, end = map(int, p.split("-"))
         return set(range(start, end + 1))
 
-    counter = Counter()
-    for pair in input_string.splitlines():
-        sec1, sec2 = map(pair_to_set, pair.split(","))
-        counter[sets_overlap(sec1, sec2)] += 1
+    pairs = (map(pair_to_set, pair.split(",")) for pair in input_string.splitlines())
+    pairs_overlapping = filter(lambda p: sets_overlap(*p), pairs)
 
-    return counter[True]
+    return len(list(pairs_overlapping))
 
 
 if __name__ == "__main__":
