@@ -6,7 +6,7 @@ import aocd
 
 
 def solution(input_string):
-    def sets_fully_overlap(set1, set2):
+    def sets_overlap(set1, set2):
         return bool(set1 & set2)
 
     def pair_to_set(p):
@@ -16,7 +16,7 @@ def solution(input_string):
     counter = Counter()
     for pair in input_string.splitlines():
         sec1, sec2 = map(pair_to_set, pair.split(","))
-        counter[sets_fully_overlap(sec1, sec2)] += 1
+        counter[sets_overlap(sec1, sec2)] += 1
 
     return counter[True]
 
