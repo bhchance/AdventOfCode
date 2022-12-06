@@ -1,7 +1,3 @@
-import itertools
-from collections import Counter
-from copy import copy
-
 import aocd
 
 
