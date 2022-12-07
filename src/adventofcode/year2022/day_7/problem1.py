@@ -45,13 +45,14 @@ def build_file_tree(commands):
     return root
 
 
+def find_items(node, comparison):
+    dirs = [c for c in node.children if isinstance(c, Directory)]
+    node = [node] if comparison(node.size) else []
+    return node + list(chain.from_iterable(map(lambda c: find_items(c, comparison), dirs)))
+
+
 def solution(input_string):
     root = build_file_tree(input_string.splitlines()[1:])
-
-    def find_items(node, comparison):
-        dirs = [c for c in node.children if isinstance(c, Directory)]
-        node = [node] if comparison(node.size) else []
-        return node + list(chain.from_iterable(map(lambda c: find_items(c, comparison), dirs)))
 
     return sum(i.size for i in find_items(root, comparison=lambda n: n <= 100000))
 
