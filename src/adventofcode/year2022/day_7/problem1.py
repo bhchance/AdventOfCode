@@ -1,9 +1,6 @@
-import dataclasses
-from itertools import groupby
-from typing import List
+from functools import cached_property
 
 import aocd
-from attr import attr
 
 
 def solution(input_string):
@@ -19,7 +16,7 @@ def solution(input_string):
             self.parent = parent
             self.children = children or []
 
-        @property
+        @cached_property
         def size(self):
             return sum(c.size for c in self.children)
 

@@ -1,3 +1,4 @@
+from functools import cached_property
 from itertools import chain
 
 import aocd
@@ -16,7 +17,7 @@ def solution(input_string):
             self.parent = parent
             self.children = children or []
 
-        @property
+        @cached_property
         def size(self):
             return sum(c.size for c in self.children)
 
