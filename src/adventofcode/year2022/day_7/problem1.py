@@ -36,13 +36,12 @@ def build_file_tree(commands):
                     current_directory = current_directory.parent
                 else:
                     current_directory = next(filter(lambda c: c.name == target, current_directory.children))
-
-        elif line.startswith("dir "):
-            current_directory.children.append(Directory(name=line.split()[-1], parent=current_directory))
-
-        else:  # is a file output from 'ls'
-            size, name = line.split()
-            item = File(name=name, size=int(size), parent=current_directory)
+        else:
+            p1, p2 = line.split()
+            if p1 == "dir":
+                item = Directory(name=p2, parent=current_directory)
+            else:
+                item = File(name=p2, size=int(p1), parent=current_directory)
             if item.name not in {c.name for c in current_directory.children}:
                 current_directory.children.append(item)
 
