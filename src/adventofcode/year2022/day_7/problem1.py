@@ -37,9 +37,11 @@ def solution(input_string):
         else:
             p1, p2 = line.split()
             if p1 == "dir":
-                current_directory.children.append(Directory(name=p2, parent=current_directory))
+                item = Directory(name=p2, parent=current_directory)
             else:
-                current_directory.children.append(File(name=p2, size=int(p1), parent=current_directory))
+                item = File(name=p2, size=int(p1), parent=current_directory)
+            if item.name not in {c.name for c in current_directory.children}:
+                current_directory.children.append(item)
 
     def count_items(node, limit=100000):
         dirs = [c for c in node.children if isinstance(c, Directory)]
