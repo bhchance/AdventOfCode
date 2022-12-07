@@ -4,27 +4,28 @@ from itertools import chain
 import aocd
 
 
-def solution(input_string):
-    class File:
-        def __init__(self, name, size, parent):
-            self.name = name
-            self.size = size
-            self.parent = parent
+class File:
+    def __init__(self, name, size, parent):
+        self.name = name
+        self.size = size
+        self.parent = parent
 
-    class Directory:
-        def __init__(self, name, parent=None, children=None):
-            self.name = name
-            self.parent = parent
-            self.children = children or []
 
-        @cached_property
-        def size(self):
-            return sum(c.size for c in self.children)
+class Directory:
+    def __init__(self, name, parent=None, children=None):
+        self.name = name
+        self.parent = parent
+        self.children = children or []
 
-    root, *rest = input_string.splitlines()
+    @cached_property
+    def size(self):
+        return sum(c.size for c in self.children)
+
+
+def build_file_tree(commands):
     root = Directory(name="root")
     current_directory = root
-    for line in rest:
+    for line in commands:
         if line.startswith("$"):
             prompt, command, *target = line.split()
             if command == "cd":
@@ -41,15 +42,21 @@ def solution(input_string):
             if item.name not in {c.name for c in current_directory.children}:
                 current_directory.children.append(item)
 
-    def find_items(node, limit):
+    return root
+
+
+def solution(input_string):
+    root = build_file_tree(input_string.splitlines()[1:])
+
+    def find_items(node, comparison):
         dirs = [c for c in node.children if isinstance(c, Directory)]
-        node = [node] if node.size >= limit else []
-        return node + list(chain.from_iterable(map(lambda c: find_items(c, limit), dirs)))
+        node = [node] if comparison(node.size) else []
+        return node + list(chain.from_iterable(map(lambda c: find_items(c, comparison), dirs)))
 
     free_space = 70000000 - root.size
     need_to_free = 30000000 - free_space
 
-    return min(find_items(root, need_to_free), key=lambda x: x.size).size
+    return min(find_items(root, lambda n: n >= need_to_free), key=lambda x: x.size).size
 
 
 if __name__ == "__main__":

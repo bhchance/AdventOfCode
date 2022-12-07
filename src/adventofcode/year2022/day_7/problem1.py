@@ -1,29 +1,31 @@
 from functools import cached_property
+from itertools import chain
 
 import aocd
 
 
-def solution(input_string):
-    class File:
-        def __init__(self, name, size, parent):
-            self.name = name
-            self.size = size
-            self.parent = parent
+class File:
+    def __init__(self, name, size, parent):
+        self.name = name
+        self.size = size
+        self.parent = parent
 
-    class Directory:
-        def __init__(self, name, parent=None, children=None):
-            self.name = name
-            self.parent = parent
-            self.children = children or []
 
-        @cached_property
-        def size(self):
-            return sum(c.size for c in self.children)
+class Directory:
+    def __init__(self, name, parent=None, children=None):
+        self.name = name
+        self.parent = parent
+        self.children = children or []
 
-    root, *rest = input_string.splitlines()
+    @cached_property
+    def size(self):
+        return sum(c.size for c in self.children)
+
+
+def build_file_tree(commands):
     root = Directory(name="root")
     current_directory = root
-    for line in rest:
+    for line in commands:
         if line.startswith("$"):
             prompt, command, *target = line.split()
             if command == "cd":
@@ -40,12 +42,18 @@ def solution(input_string):
             if item.name not in {c.name for c in current_directory.children}:
                 current_directory.children.append(item)
 
-    def count_items(node, limit=100000):
-        dirs = [c for c in node.children if isinstance(c, Directory)]
-        size = node.size if node.size <= limit else 0
-        return size + sum(map(lambda c: count_items(c, limit), dirs))
+    return root
 
-    return count_items(root)
+
+def solution(input_string):
+    root = build_file_tree(input_string.splitlines()[1:])
+
+    def find_items(node, comparison):
+        dirs = [c for c in node.children if isinstance(c, Directory)]
+        node = [node] if comparison(node.size) else []
+        return node + list(chain.from_iterable(map(lambda c: find_items(c, comparison), dirs)))
+
+    return sum(i.size for i in find_items(root, comparison=lambda n: n <= 100000))
 
 
 if __name__ == "__main__":
