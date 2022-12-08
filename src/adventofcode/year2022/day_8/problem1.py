@@ -2,7 +2,7 @@ import itertools
 
 import aocd
 
-from adventofcode.helpers import transpose_matrix, rotate_matrix, flip_matrix
+from adventofcode.helpers import rotate_matrix
 
 
 def solution(input_string):
