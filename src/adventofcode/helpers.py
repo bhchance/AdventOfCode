@@ -16,3 +16,15 @@ def sliding_window(iterable, n):
     for x in it:
         window.append(x)
         yield tuple(window)
+
+
+def transpose_matrix(matrix):
+    return [list(x) for x in zip(*matrix)]
+
+
+def rotate_matrix(matrix):
+    return [list(x) for x in zip(*matrix[::-1])]
+
+
+def flip_matrix(matrix):
+    return [list(reversed(x)) for x in matrix]
