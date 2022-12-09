@@ -1,4 +1,4 @@
-import functools
+import itertools
 
 import aocd
 import math
@@ -24,11 +24,8 @@ def calculate_scenic_score(coords, matrix):
 def solution(input_string):
     tree_matrix = [list(line) for line in input_string.splitlines()]
 
-    scores = {0}
-    for i in range(len(tree_matrix)):
-        for j in range(len(tree_matrix[0])):
-            scores.add(calculate_scenic_score((i, j), tree_matrix))
-    return max(scores)
+    pairs = itertools.product(range(len(tree_matrix[0])), range(len(tree_matrix)))
+    return max(map(lambda p: calculate_scenic_score(p, tree_matrix), pairs))
 
 
 if __name__ == "__main__":
