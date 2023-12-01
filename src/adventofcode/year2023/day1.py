@@ -1,3 +1,4 @@
+import re
 import string
 
 import aocd
@@ -19,12 +20,8 @@ def solution_part2(input_string):
         "eight": "8",
         "nine": "9",
     }
-    line_values = []
-    for line in input_string.splitlines():
-        first_finds = {index: item for item in mapping.keys() if (index := line.find(item)) != -1}
-        last_finds = {index: item for item in mapping.keys() if (index := line.rfind(item)) != -1}
-        line_values.append(mapping[first_finds[min(first_finds)]] + mapping[last_finds[max(last_finds)]])
-    return sum(map(int, line_values))
+    pattern = "|".join(mapping.keys())
+    return sum(int(mapping.get(matches[0]) + mapping.get(matches[-1])) for line in input_string.splitlines() if (matches := re.findall(pattern, line)))
 
 
 if __name__ == "__main__":
